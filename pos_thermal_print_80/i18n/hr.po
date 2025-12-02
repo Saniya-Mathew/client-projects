@@ -1,0 +1,127 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pos_thermal_print_80
+#
+msgid ""
+msgstr """Project-Id-Version: Odoo Server 17.0+e-20250725\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-11 19:36+0000\n"
+"PO-Revision-Date: 2025-11-11 19:36+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "<strong>Base</strong>"
+msgstr "<strong>Osnovica</strong>"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "<strong>Tax%</strong>"
+msgstr "<strong>PDV%</strong>"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "<strong>Tax</strong>"
+msgstr "<strong>PDV</strong>"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "<strong>Total</strong>"
+msgstr "<strong>Ukupno</strong>"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "Company Logo"
+msgstr "Logo tvrtke"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "Copy"
+msgstr "KOPIJA"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "Date and time:"
+msgstr "Datum i vrijeme:"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "Fiscalization Payment Type:"
+msgstr "Fisk. oznaka načina plaćanja:"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "Invoice:"
+msgstr "Račun:"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "JIR:"
+msgstr ""
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "Customer:"
+msgstr "Kupac"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "Method of Payment:"
+msgstr "Način plaćanja"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "OIB:"
+msgstr ""
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "Operator:"
+msgstr "Operater:"
+
+#. module: pos_thermal_print_80
+#: model:ir.model,name:pos_thermal_print_80.model_report_pos_thermal_print_80_report_pos_order_80
+msgid "POS 80mm Thermal Report with fiscalization data"
+msgstr ""
+
+#. module: pos_thermal_print_80
+#: model:ir.actions.report,name:pos_thermal_print_80.action_report_pos_order_80
+msgid "POS Order 80"
+msgstr ""
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "TOTAL"
+msgstr "UKUPNO"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "Units x"
+msgstr "Kom x"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid "ZKI (not fiscalized):"
+msgstr "ZKI:"
+
+#. module: pos_thermal_print_80
+#: model_terms:ir.ui.view,arch_db:pos_thermal_print_80.report_pos_order_80
+msgid ""
+"Zamjena ispravke, nekorištene robe<br/>\n"
+"                        moguća je u roku od 8 dana uz račun.<br/>\n"
+"                        Isključivo uz predočenje originalnog<br/>\n"
+"                        računa; artikli kupljeni u akciji mogu se zamjeniti<br/>\n"
+"                        isključivo unutar iste akcije; do njenog<br/>\n"
+"                        isteka. Povrat novca nije moguć."
+msgstr ""
+"Zamjena ispravke, nekorištene robe<br/>\n"
+"                        moguća je u roku od 8 dana uz račun.<br/>\n"
+"                        Isključivo uz predočenje originalnog<br/>\n"
+"                        računa; artikli kupljeni u akciji mogu se zamjeniti<br/>\n"
+"                        isključivo umrtar iste akcije; do njenog<br/>\n"
+"                        isteka. Povrat novca nije moguć."

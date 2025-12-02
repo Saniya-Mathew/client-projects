@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_pos_order_80">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="o" t-value="doc['order']"/>
+                <t t-set="aggregated_taxes" t-value="doc['aggregated_taxes']"/>
+                <t t-set="parent_company" t-value="o.company_id.parent_id"/>
+                <div class="page pos-receipt" style="font-family: Arial, sans-serif; font-size: 14pt; line-height: 1.4; width: 120mm; color: #000000; padding: 10mm; background: white;">
+                    <div style="text-align: center; margin-bottom: 15px;">
+                        <img t-if="o.company_id.logo" t-attf-src="/web/image?model=res.company&amp;id={{o.company_id.id}}&amp;field=logo" alt="Company Logo" style="max-width: 250px; max-height: 100px;"/>
+                    </div>
+
+                    <div t-if="parent_company" style="text-align: center; font-size: 14pt; margin-bottom: 6px;">
+                        <span t-field="parent_company.name"/><br/>
+                        <span t-field="parent_company.street"/>,<span t-field="parent_company.city"/>,<span t-field="parent_company.zip"/>
+                    </div>
+
+                    <div t-if="o.company_id.name" style="text-align: center; font-size: 13pt; margin-bottom: 6px;">
+                        <span t-field="o.company_id.name"/>
+                    </div>
+
+                    <div t-if="o.company_id.street" style="text-align: center; font-size: 12pt; margin-bottom: 4px;">
+                        <span t-field="o.company_id.street"/>, <span t-field="o.company_id.city"/>, <span t-field="o.company_id.country_id.name"/>
+                    </div>
+
+                    <div style="text-align: center; font-size: 12pt; margin-bottom: 5px;">
+                        <span t-if="o.company_id.zip" t-field="o.company_id.zip"/><t t-if="o.company_id.city">, <span t-field="o.company_id.city"/></t>
+                    </div>
+                    <div style="text-align: center; font-size: 12pt; margin-bottom: 5px;">
+                        <t t-esc="'-' * 32"/>
+                    </div>
+                    <div t-if="o.employee_id" style="text-align: center; font-size: 11pt; margin-bottom: 15px;">
+                        Operator: <span t-esc="o.employee_id.name.split(' ')[0] if o.employee_id.name else ''"/>                    </div>
+
+                    <div style="text-align: right; font-weight: bold; font-size: 16pt; margin-bottom: 15px;">
+                        Copy
+                    </div>
+                    <!-- Order lines -->
+                    <table class="table table-sm table-borderless">
+                        <tbody>
+                            <tr t-foreach="o.lines" t-as="line">
+                                <td>
+                                    <div style="margin-bottom: 6px;">
+                                        <div style="text-align: left; font-weight: bold; font-size: 13pt; margin-bottom: 4px; text-transform: uppercase;">
+                                            <span t-field="line.full_product_name"/>
+                                            <span style="float: right; font-weight: bold;">
+                                                <span t-esc="'{:.2f}'.format(line.price_subtotal_incl)"/> €
+                                            </span>
+                                        </div>
+
+                                        <div style="text-align: left; font-size: 13pt;">
+                                            <!-- discount calculation from product's list_price and line.price_unit -->
+                                            <t t-set="akcijski_popust" t-value="(1 - (line.price_unit / line.product_id.list_price)) * 100 if line.product_id.list_price else 0"/>
+
+                                            <span t-esc="'{:.2f}'.format(line.qty)"/> Units x
+                                            <span t-esc="'{:.2f}'.format(line.product_id.list_price)"/>
+                                            <span t-esc="'{:.2f}'.format(akcijski_popust) if akcijski_popust else '-'"/>%<br/>
+
+                                            <span t-esc="'{:.2f}'.format(line.price_unit)"/> €
+                                            <span t-esc="'{:.2f}'.format(line.price_unit * line.qty)"/> €
+                                        </div>
+
+                                        <div t-if="line.discount &gt; 0" style="text-align: left; font-size: 11pt; margin-top: 3px;">
+                                            <span t-esc="'{:.2f}'.format(line.qty * line.price_unit)"/> €
+                                            <span t-esc="'{:.2f}'.format(line.price_subtotal_incl)"/> €
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="text-align: right; font-size: 12pt; ">
+                        <t t-esc="'-' * 8"/>
+                    </div>
+                    <div style="text-align: right; font-size: 17pt; font-weight: bold;">
+                        TOTAL <span style="margin-left: 30px;"><span t-esc="'{:.2f}'.format(o.amount_total)" /> €</span>
+                    </div>
+                    <t t-foreach="o.payment_ids" t-as="payment">
+                        <div style="text-align: left; font-size: 13pt; margin: 6px 0;">
+                            Method of Payment: <span t-field="payment.payment_method_id.name"/>
+                            <span style="float: right;"><span t-esc="'{:.2f}'.format(payment.amount)"/></span>
+                        </div>
+                        <div style="text-align: left; font-size: 13pt; margin: 6px 0;">
+                            Fiscalization Payment Type: <t t-if="payment.payment_method_id.journal_id.fisc_payment_type">
+                                <span t-esc="dict(payment.payment_method_id.journal_id.fields_get(allfields=['fisc_payment_type'])['fisc_payment_type']['selection'])[payment.payment_method_id.journal_id.fisc_payment_type]"/>
+                            </t>
+                        </div>
+                    </t>
+                       <!-- Discount Section -->
+                    <t t-set="total_discount" t-value="sum(line.qty * line.price_unit * line.discount / 100.0 for line in o.lines if line.discount > 0)"/>
+                        <div t-if="total_discount > 0" style="text-align: left; font-size: 13pt; margin: 6px 0;">
+                            Discounts
+                            <span style="float: right;"><span t-esc="'{:.2f}'.format(total_discount)"/> €</span>
+                        </div>
+                    <!-- partner section (if partner exists)-->
+                    <t t-if="o.partner_id and o.partner_id.name != 'Anonymous'">
+                        <div style="margin-top: 10px; padding-top: 8px;">
+                            <table class="table table-sm table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <td>Customer:</td>
+                                        <td><div style="font-size: 13pt; text-align:right;">
+                                            <span t-field="o.partner_id.name"/><br/>
+                                            <t t-if="o.partner_id.street">
+                                                <span t-field="o.partner_id.street"/><br/>
+                                            </t>
+                                            <t t-if="o.partner_id.city">
+                                                <span t-field="o.partner_id.zip"/> <span t-field="o.partner_id.city"/><br/>
+                                            </t>
+
+                                        </div>
+                                        </td>
+                                    </tr>
+                                    <t t-if="o.partner_id.vat">
+                                        <tr>
+                                            <td>OIB:</td>
+                                            <td><div style="font-size: 13pt; text-align:right;"><span t-field="o.partner_id.vat"/></div></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+
+                    <div style="text-align: left; font-size: 13pt; margin: 6px 0;">
+                        Invoice: <span t-esc="o.name"/>
+                    </div>
+
+                    <div style="text-align: left; font-size: 13pt; margin: 6px 0 12px 0;">
+                        Date and time: <span t-field="o.date_order"/>
+                    </div>
+
+                    <div style="font-size: 11pt; margin: 12px 0; line-height: 1.5;">
+                        <div t-if="o.zki" style="word-wrap: break-word; margin-bottom: 4px;">
+                            ZKI: <span t-field="o.zki"/>
+                        </div>
+                        <div t-if="o.jir" style="word-wrap: break-word; margin-bottom: 4px;">
+                            JIR: <span t-field="o.jir"/>
+                        </div>
+                    </div>
+                    <!-- Tax section -->
+                    <table class="table table-borderless m-0 w-100" style="text-align: center;">
+                        <thead>
+                            <tr>
+                                <th t-translation="on"><strong>Tax%</strong></th>
+                                <th t-translation="on"><strong>Tax</strong></th>
+                                <th t-translation="on"><strong>Base</strong></th>
+                                <th t-translation="on"><strong>Total</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="aggregated_taxes.items()" t-as="tax_entry">
+                                <tr>
+                                    <td><strong><span t-esc="'{:.0f}'.format(tax_entry[1]['percent'])"/>%</strong></td>
+                                    <td><strong><span t-esc="'{:.2f}'.format(tax_entry[1]['vat'])"/></strong></td>
+                                    <td><strong><span t-esc="'{:.2f}'.format(tax_entry[1]['base'])"/></strong></td>
+                                    <td><strong><span t-esc="'{:.2f}'.format(tax_entry[1]['base'] + tax_entry[1]['vat'])"/></strong></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <!-- QR code -->
+                    <div t-if="o.pos_qrcode" style="text-align: center; margin: 20px 0;">
+                        <img t-if="isinstance(o.pos_qrcode, str)" t-attf-src="data:image/png;base64,{{o.pos_qrcode}}" style="width: 140px; height: 140px;"/>
+                        <img t-elif="isinstance(o.pos_qrcode, bytes)" t-attf-src="data:image/png;base64,{{o.pos_qrcode.decode('utf-8')}}" style="width: 140px; height: 140px;"/>
+                    </div>
+
+                    <div style="text-align: center; font-size: 11pt; margin: 20px 0; line-height: 1.6;">
+                        Zamjena ispravke, nekorištene robe<br/>
+                        moguća je u roku od 8 dana uz račun.<br/>
+                        Isključivo uz predočenje originalnog<br/>
+                        računa; artikli kupljeni u akciji mogu se zamjeniti<br/>
+                        isključivo umrtar iste akcije; do njenog<br/>
+                        isteka. Povrat novca nije moguć.
+                    </div>
+
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
