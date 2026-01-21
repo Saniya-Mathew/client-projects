@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_planning_skill_tree" model="ir.ui.view">
+        <field name="name">planning.skill.tree</field>
+        <field name="model">planning.skill</field>
+        <field name="arch" type="xml">
+            <list string="Skills" editable="bottom">
+                <field name="name"/>
+                <field name="resource_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_employee_initial_shift_skills" model="ir.actions.act_window">
+        <field name="name">Skills</field>
+        <field name="res_model">planning.skill</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="employee_initial_shift.view_planning_skill_tree"/>
+    </record>
+
+    <menuitem id="employee_initial_shift_menu_skills" name=" Working Skills"
+              parent="planning.planning_menu_settings"
+              action="employee_initial_shift.action_employee_initial_shift_skills"
+              groups="planning.group_planning_manager"
+              sequence="25"/>
+</odoo>

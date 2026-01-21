@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_planning_slot_template_form_skills" model="ir.ui.view">
+        <field name="name">planning.slot.template.form.skills</field>
+        <field name="model">planning.slot.template</field>
+        <field name="inherit_id" ref="planning.planning_slot_template_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='role_id']" position="after">
+                <field name="skill_ids" widget="many2many_tags" options="{'no_create': False}"/>
+                <field name="initial_shift"/>
+                <field name="rotation_type"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="planning_slot_template_view_tree_inherit" model="ir.ui.view">
+        <field name="name">planning.slot.template.list.inherit</field>
+        <field name="model">planning.slot.template</field>
+        <field name="inherit_id" ref="planning.planning_slot_template_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='role_id']" position="after">
+                <field name="initial_shift" optional="show"/>
+                <field name="rotation_type" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

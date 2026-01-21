@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_planning_slot_search_initial_shift" model="ir.ui.view">
+        <field name="name">planning.slot.search.initial.shift</field>
+        <field name="model">planning.slot</field>
+        <field name="inherit_id" ref="planning.planning_view_search_base"/>
+        <field name="arch" type="xml">
+            <!-- Target the Group By <group> by one of its child filters -->
+            <xpath expr="//group[filter[@name='group_by_department']]" position="inside">
+                <filter
+                    name="initial_shift_morning"
+                    string="Morning Shift"
+                    domain="[('employee_initial_shift', '=', 'morning')]"
+                />
+                <filter
+                    name="initial_shift_evening"
+                    string="Evening Shift"
+                    domain="[('employee_initial_shift', '=', 'evening')]"
+                />
+                <filter
+                    name="initial_shift_night"
+                    string="Night Shift"
+                    domain="[('employee_initial_shift', '=', 'night')]"
+                />
+                <separator/>
+                <filter
+                    name="group_employee_initial_shift"
+                    string="Initial Shift"
+                    context="{'group_by': 'employee_initial_shift'}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
